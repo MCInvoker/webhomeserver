@@ -30,6 +30,21 @@ module.exports = appInfo => {
         allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
     };
 
+    config.mysql = {
+        client: {
+            host: 'localhost',
+            port: '3306',
+            user: 'root',
+            password: 'qj759302142',
+            database: 'mysql',
+        },
+        authPlugins: {
+            mysql_native_password: 'mysql_native_password',
+        },
+        app: true,
+        agent: false,
+    };
+
     // add your user config here
     const userConfig = {
         // myAppName: 'egg',
