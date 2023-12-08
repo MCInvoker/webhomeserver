@@ -3,7 +3,7 @@
 const { Controller } = require('egg');
 
 class CategoryController extends Controller {
-    // 创建页面
+    // 创建分类
     async createCategory () {
         const { ctx } = this;
         const { page_id } = ctx.params;

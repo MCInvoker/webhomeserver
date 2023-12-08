@@ -13,7 +13,7 @@ module.exports = app => {
     router.delete('/api/page/:page_id', controller.page.deletePage);
     router.put('/api/page/:page_id', controller.page.updatePage);
 
-    router.post('/api/category', controller.category.createCategory);
+    router.post('/api/category/:page_id', controller.category.createCategory);
     router.delete('/api/category/:category_id', controller.category.deleteCategory);
     router.put('/api/category/:category_id', controller.category.updateCategory);
 
