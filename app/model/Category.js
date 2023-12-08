@@ -15,7 +15,7 @@ module.exports = app => {
 
     Category.associate = function () {
         app.model.Category.belongsTo(app.model.Page, { foreignKey: 'page_id' });
-        app.model.Category.hasMany(app.model.Link, { foreignKey: 'link_id' });
+        app.model.Category.hasMany(app.model.Link, { foreignKey: 'category_id' });
     };
 
     return Category;

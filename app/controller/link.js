@@ -28,6 +28,22 @@ class LinkController extends Controller {
             data: link,
         };
     }
+    async updateLink () {
+        const { ctx } = this;
+        const { link_id } = ctx.params;
+        const { link_name, category_id, url, description = '', } = ctx.request.body;
+        const link = await ctx.model.Link.findByPk(link_id);
+        if (!link) {
+            ctx.status = 404;
+            ctx.body = { error: 'link not found' };
+            return;
+        }
+        await link.update({ link_name, category_id, url, description });
+        ctx.body = {
+            success: true,
+            data: link,
+        };
+    }
 }
 
 module.exports = LinkController;
