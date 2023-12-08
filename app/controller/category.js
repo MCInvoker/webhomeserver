@@ -19,7 +19,7 @@ class CategoryController extends Controller {
     async deleteCategory () {
         const { ctx } = this;
         const { category_id } = ctx.params;
-        const category = await ctx.model.Link.findByPk(category_id);
+        const category = await ctx.model.Category.findByPk(category_id);
         if (!category) {
             ctx.status = 404;
             ctx.body = { error: 'category not found' };

@@ -5,7 +5,8 @@ const { Controller } = require('egg');
 class LinkController extends Controller {
     async createLink () {
         const { ctx } = this;
-        const { link_name, category_id, url, description = '', } = ctx.request.body;
+        const { category_id } = ctx.params;
+        const { link_name, url, description = '', } = ctx.request.body;
         const link = await ctx.model.Link.create({ link_name, category_id, url, description });
         // 返回插入结果
         ctx.body = {

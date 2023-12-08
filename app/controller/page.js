@@ -7,17 +7,17 @@ class PageController extends Controller {
     async getPage () {
         const { ctx } = this;
         const { page_id } = ctx.params;
-        // const page = await ctx.model.Page.findByPk(page_id, {
-        //     where: { is_deleted: 0 },
-        //     include: [
-        //         { model: ctx.model.Category, where: { is_deleted: 0 }, include: [{ model: ctx.model.Link, where: { is_deleted: 0 } }] }
-        //     ]
-        // });
         const page = await ctx.model.Page.findByPk(page_id, {
             include: [
                 {
                     model: ctx.model.Category,
-                    include: [{ model: ctx.model.Link, separate: true, order: [['link_id', 'ASC']] }] // DESC  ASC    separate单独对links独立查询,可能回存在性能问题,如果后期有性能问题可以在其他地方排序
+                    where: { is_deleted: 0 },
+                    include: [{
+                        model: ctx.model.Link,
+                        where: { is_deleted: 0 },
+                        separate: true, // separate单独对links独立查询,可能会存在性能问题,如果后期有性能问题可以在其他地方排序
+                        order: [['link_id', 'ASC']] // DESC  ASC
+                    }]
                 }
             ]
         });
