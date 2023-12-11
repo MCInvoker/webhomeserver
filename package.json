@@ -1,47 +1,50 @@
 {
-  "name": "webhomeserver",
-  "version": "1.0.0",
-  "description": "",
-  "private": true,
-  "egg": {
-    "declarations": true
-  },
-  "dependencies": {
-    "egg": "^3",
-    "egg-cors": "^2.2.3",
-    "egg-scripts": "^2",
-    "egg-sequelize": "^6.0.0",
-    "mysql2": "^3.6.5"
-  },
-  "devDependencies": {
-    "egg-bin": "^5",
-    "egg-ci": "^2",
-    "egg-mock": "^5",
-    "eslint": "^8",
-    "eslint-config-egg": "^12"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-webhomeserver",
-    "stop": "egg-scripts stop --title=egg-server-webhomeserver",
-    "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
-    "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test",
-    "cov": "egg-bin cov",
-    "lint": "eslint .",
-    "ci": "npm run lint && npm run cov"
-  },
-  "ci": {
-    "version": "16, 18",
-    "type": "github"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "invoker",
-  "license": "MIT"
+    "name": "webhomeserver",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "egg": {
+        "declarations": true
+    },
+    "dependencies": {
+        "egg": "^3",
+        "egg-cors": "^2.2.3",
+        "egg-scripts": "^2",
+        "egg-sequelize": "^6.0.0",
+        "mysql2": "^3.6.5"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.23.5",
+        "@babel/preset-env": "^7.23.5",
+        "@babel/register": "^7.22.15",
+        "egg-bin": "^5",
+        "egg-ci": "^2",
+        "egg-mock": "^5",
+        "eslint": "^8",
+        "eslint-config-egg": "^12"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "scripts": {
+        "start": "egg-scripts start --daemon --title=egg-server-webhomeserver --require @babel/register",
+        "stop": "egg-scripts stop --title=egg-server-webhomeserver --require @babel/register",
+        "dev": "egg-bin dev --require @babel/register",
+        "debug": "egg-bin debug --require @babel/register",
+        "test": "npm run lint -- --fix && npm run test-local --require @babel/register",
+        "test-local": "egg-bin test --require @babel/register",
+        "cov": "egg-bin cov --require @babel/register",
+        "lint": "eslint . --require @babel/register",
+        "ci": "npm run lint && npm run cov --require @babel/register"
+    },
+    "ci": {
+        "version": "16, 18",
+        "type": "github"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": "invoker",
+    "license": "MIT"
 }

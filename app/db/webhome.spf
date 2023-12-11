@@ -66,13 +66,13 @@
 			UHJpbWFyeUtleWVkRGV0YWlsc9MNDg8eHyCgoIAH0iIjJCVaJGNs
 			YXNzbmFtZVgkY2xhc3Nlc18QE05TTXV0YWJsZURpY3Rpb25hcnmj
 			JCYnXE5TRGljdGlvbmFyeVhOU09iamVjdNIODykroSqACYAL0g8t
-			Li9ZTlMuc3RyaW5ngApXdXNlcl9pZNIiIzEyXxAPTlNNdXRhYmxl
-			U3RyaW5nozEzJ1hOU1N0cmluZ9IiIzU2Xk5TTXV0YWJsZUFycmF5
-			ozU3J1dOU0FycmF50iIjJjmiJicACAARABoAJAApADIANwBJAEwA
-			UQBTAGEAZwBuAHYAgQCIAIwAjgCQAJIAlgCYAJoAnACeAKMAqACt
-			ANYA3QDeAN8A4QDmAPEA+gEQARQBIQEqAS8BMQEzATUBOgFEAUYB
-			TgFTAWUBaQFyAXcBhgGKAZIBlwAAAAAAAAIBAAAAAAAAADoAAAAA
-			AAAAAAAAAAAAAAGa
+			Li9ZTlMuc3RyaW5ngApbY2F0ZWdvcnlfaWTSIiMxMl8QD05TTXV0
+			YWJsZVN0cmluZ6MxMydYTlNTdHJpbmfSIiM1Nl5OU011dGFibGVB
+			cnJheaM1NydXTlNBcnJhedIiIyY5oiYnAAgAEQAaACQAKQAyADcA
+			SQBMAFEAUwBhAGcAbgB2AIEAiACMAI4AkACSAJYAmACaAJwAngCj
+			AKgArQDWAN0A3gDfAOEA5gDxAPoBEAEUASEBKgEvATEBMwE1AToB
+			RAFGAVIBVwFpAW0BdgF7AYoBjgGWAZsAAAAAAAACAQAAAAAAAAA6
+			AAAAAAAAAAAAAAAAAAABng==
 			</data>
 			<key>contentSortColIsAsc</key>
 			<true/>
@@ -81,7 +81,7 @@
 			<key>isToolbarVisible</key>
 			<true/>
 			<key>table</key>
-			<string>users</string>
+			<string>categories</string>
 			<key>view</key>
 			<string>SP_VIEW_CONTENT</string>
 			<key>windowVerticalDividerPosition</key>

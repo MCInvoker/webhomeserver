@@ -14,6 +14,7 @@ class CategoryController extends Controller {
             success: true,
             data: category,
         };
+
     }
     // 
     async deleteCategory () {
