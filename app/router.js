@@ -19,4 +19,5 @@ module.exports = app => {
 
     router.post('/api/link/:category_id', controller.link.createLink);
     router.delete('/api/link/:link_id', controller.link.deleteLink);
+    router.put('/api/link/:link_id', controller.link.updateLink);
 };

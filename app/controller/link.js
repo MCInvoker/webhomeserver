@@ -6,6 +6,14 @@ class LinkController extends Controller {
     async createLink () {
         const { ctx } = this;
         const { category_id } = ctx.params;
+        // // 定义参数校验规则
+        // const rule = {
+        //     link_name: { type: 'string', required: true },
+        //     description: { type: 'string', required: true },
+        //     // 其他参数...
+        // };
+        // // 进行参数校验
+        // ctx.validate(rule, ctx.request.body);
         const { link_name, url, description = '', } = ctx.request.body;
         const link = await ctx.model.Link.create({ link_name, category_id, url, description });
         // 返回插入结果

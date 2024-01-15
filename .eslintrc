@@ -1,6 +1,9 @@
 {
     "extends": "eslint-config-egg",
     "root": true,
+    "parserOptions": {
+        "sourceType": "module"
+    },
     "rules": {
         "indent": [
             "error",

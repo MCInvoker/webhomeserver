@@ -9,8 +9,10 @@
     "dependencies": {
         "egg": "^3",
         "egg-cors": "^2.2.3",
+        "egg-parameter": "^1.0.0",
         "egg-scripts": "^2",
         "egg-sequelize": "^6.0.0",
+        "egg-validate": "^2.0.2",
         "mysql2": "^3.6.5"
     },
     "devDependencies": {
