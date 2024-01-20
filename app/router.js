@@ -9,6 +9,7 @@ module.exports = app => {
     router.get('/config', controller.home.getConfig);
 
     router.get('/api/page/:page_id', controller.page.getPage);
+    router.get('/api/page', controller.page.getPages);
     router.post('/api/page', controller.page.createPage);
     router.delete('/api/page/:page_id', controller.page.deletePage);
     router.put('/api/page/:page_id', controller.page.updatePage);

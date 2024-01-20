@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = app => {
-    const { STRING, INTEGER, DATE } = app.Sequelize;
+    const { STRING, INTEGER } = app.Sequelize;
 
     const Page = app.model.define('pages', {
         page_id: { type: INTEGER, primaryKey: true, autoIncrement: true },
@@ -10,7 +10,7 @@ module.exports = app => {
         description: STRING(255),
         // created_at: DATE,
         // updated_at: DATE,
-        is_deleted: { type: INTEGER, defaultValue: 0 }
+        is_deleted: { type: INTEGER, defaultValue: 0 },
     });
 
     Page.associate = function () {
