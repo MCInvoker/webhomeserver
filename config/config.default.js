@@ -36,21 +36,22 @@ module.exports = appInfo => {
         port: 3306,
         database: 'webhome', // 替换为实际的数据库名
         username: 'root', // 替换为实际的数据库用户名
-        password: 'qj759302142', // 替换为实际的数据库密码
+        // password: 'qj759302142', // 替换为实际的数据库密码
+        password: '!Qj759302142', // 替换为实际的数据库密码
     };
 
-    config.redis = {
-        client: {
-            port: 6379, // Redis port
-            host: '127.0.0.1', // Redis host
-            password: 'auth',
-            db: 0,
-        },
-    };
+    // config.redis = {
+    //     client: {
+    //         port: 6379, // Redis port
+    //         host: '127.0.0.1', // Redis host
+    //         password: 'auth',
+    //         db: 0,
+    //     },
+    // };
 
-    config.jwt = {
-        secret: 'invoker7777777',
-    };
+    // config.jwt = {
+    //     secret: 'invoker7777777',
+    // };
 
     // add your user config here
     const userConfig = {

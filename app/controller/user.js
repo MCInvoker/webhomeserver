@@ -21,13 +21,13 @@ class UserController extends Controller {
         });
 
         if (user) {
-            const token = ctx.app.jwt.sign({ username }, ctx.app.config.jwt.secret);
-            // 将 Token 存储到 Redis，并设置过期时间
-            await ctx.app.redis.set(`token:${username}`, token, 'EX', 60 * 60 * 24 * 365); // 例如，设置 24 小时过期
+            // const token = ctx.app.jwt.sign({ username }, ctx.app.config.jwt.secret);
+            // // 将 Token 存储到 Redis，并设置过期时间
+            // await ctx.app.redis.set(`token:${username}`, token, 'EX', 60 * 60 * 24 * 365); // 例如，设置 24 小时过期
 
-            ctx.body = {
-                token,
-            };
+            // ctx.body = {
+            //     token,
+            // };
         } else {
             ctx.status = 401;
             ctx.body = { message: '用户名或密码错误' };
