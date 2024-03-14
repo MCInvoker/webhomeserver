@@ -30,13 +30,20 @@ module.exports = appInfo => {
         allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
     };
 
+    // config.sequelize = {
+    //     dialect: 'mysql', // 数据库类型，这里假设使用 MySQL
+    //     host: 'localhost',
+    //     port: 3306,
+    //     database: 'webhome', // 替换为实际的数据库名
+    //     username: 'root', // 替换为实际的数据库用户名
+    //     password: 'qj759302142', // 替换为实际的数据库密码
+    // };
     config.sequelize = {
         dialect: 'mysql', // 数据库类型，这里假设使用 MySQL
-        host: 'localhost',
+        host: '47.97.212.228',
         port: 3306,
         database: 'webhome', // 替换为实际的数据库名
         username: 'root', // 替换为实际的数据库用户名
-        // password: 'qj759302142', // 替换为实际的数据库密码
         password: '!Qj759302142', // 替换为实际的数据库密码
     };
 
@@ -49,9 +56,9 @@ module.exports = appInfo => {
     //     },
     // };
 
-    // config.jwt = {
-    //     secret: 'invoker7777777',
-    // };
+    config.jwt = {
+        secret: 'invoker7777777',
+    };
 
     // add your user config here
     const userConfig = {

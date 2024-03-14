@@ -4,11 +4,14 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-    const { router, controller } = app;
+    const { router, controller, middleware } = app;
+    const authMiddleware = middleware.auth(app);
+
     router.get('/', controller.home.index);
     router.get('/config', controller.home.getConfig);
 
     router.post('/api/login', controller.user.login);
+    router.post('/api/user/register', controller.user.register);
 
     router.get('/api/page/:page_id', controller.page.getPage);
     router.get('/api/page', controller.page.getPages);
@@ -20,7 +23,7 @@ module.exports = app => {
     router.delete('/api/category/:category_id', controller.category.deleteCategory);
     router.put('/api/category/:category_id', controller.category.updateCategory);
 
-    router.post('/api/link/:category_id', controller.link.createLink);
+    router.post('/api/link/:category_id', authMiddleware, controller.link.createLink);
     router.delete('/api/link/:link_id', controller.link.deleteLink);
     router.put('/api/link/:link_id', controller.link.updateLink);
 };

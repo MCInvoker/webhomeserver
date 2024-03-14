@@ -14,14 +14,18 @@ module.exports = {
         enable: true,
         package: 'egg-sequelize',
     },
+    bcrypt:{
+        enable: true,
+        package: 'egg-bcrypt'
+    },
     // redis: {
     //     enable: true,
     //     package: 'egg-redis',
     // },
-    // jwt: {
-    //     enable: true,
-    //     package: 'egg-jwt',
-    // },
+    jwt: {
+        enable: true,
+        package: 'egg-jwt',
+    },
 
     // validate: {
     //     enable: true,
