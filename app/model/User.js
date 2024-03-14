@@ -8,6 +8,8 @@ module.exports = app => {
         username: STRING(255),
         email: STRING(255),
         password: STRING(255),
+        account: STRING(255),
+        phone: STRING(255),
         // created_at: DATE,
         // updated_at: DATE,
         is_deleted: { type: INTEGER, defaultValue: 0 } // 0 for not deleted, 1 for deleted

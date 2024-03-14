@@ -59,6 +59,9 @@ module.exports = appInfo => {
     config.jwt = {
         secret: 'invoker7777777',
     };
+    config.bcrypt = {
+        saltRounds: 10 // default 10
+    }
 
     // add your user config here
     const userConfig = {

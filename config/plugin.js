@@ -14,7 +14,7 @@ module.exports = {
         enable: true,
         package: 'egg-sequelize',
     },
-    bcrypt:{
+    bcrypt: {
         enable: true,
         package: 'egg-bcrypt'
     },
