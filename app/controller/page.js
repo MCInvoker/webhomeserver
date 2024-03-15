@@ -1,6 +1,7 @@
 'use strict';
 
 const { Controller } = require('egg');
+import { check403 } from '../utils/errorMessage';
 
 class PageController extends Controller {
     // 获取某个页面下的所有链接
@@ -21,6 +22,7 @@ class PageController extends Controller {
                 },
             ],
         });
+        check403(ctx, page.user_id)
         ctx.body = {
             success: true,
             data: page,

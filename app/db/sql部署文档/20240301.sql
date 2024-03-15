@@ -28,6 +28,10 @@ ADD COLUMN phone VARCHAR(255) NOT NULL;
 
 
 -- 回退sql
+
+
+ALTER TABLE users MODIFY COLUMN username varchar(255) NOT NULL;
+ALTER TABLE users MODIFY COLUMN email varchar(255) NOT NULL;
 ALTER TABLE users
 DROP COLUMN account,
 DROP COLUMN phone;

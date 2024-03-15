@@ -6,14 +6,18 @@
 module.exports = app => {
     const { router, controller, middleware } = app;
     const authMiddleware = middleware.auth(app);
+    const skipAuthMiddleware = middleware.skipAuth(app);
 
-    router.get('/', controller.home.index);
+    router.get('/',app.jwt, controller.home.index);
     router.get('/config', controller.home.getConfig);
 
-    router.post('/api/login', controller.user.login);
-    router.post('/api/user/register', controller.user.register);
+    router.post('/api/user/password/login',skipAuthMiddleware, controller.user.passwordLogin);
+    router.post('/api/user/phone/login',skipAuthMiddleware, controller.user.phoneLogin);
+    router.post('/api/user/register',skipAuthMiddleware, controller.user.register);
+    router.post('/api/user/account/check/:account',skipAuthMiddleware, controller.user.accountCheck);
+    router.post('/api/user/phone/check/:phone',skipAuthMiddleware, controller.user.phoneCheck);
 
-    router.get('/api/page/:page_id', controller.page.getPage);
+    router.get('/api/page/:page_id', authMiddleware, controller.page.getPage);
     router.get('/api/page', controller.page.getPages);
     router.post('/api/page', controller.page.createPage);
     router.delete('/api/page/:page_id', controller.page.deletePage);

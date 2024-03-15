@@ -3,8 +3,8 @@
 const { Controller } = require('egg');
 
 class UserController extends Controller {
-    async login () {
-        const { ctx } = this;
+    async passwordLogin () {
+        const { ctx, app } = this;
         const { account, password } = ctx.request.body;
         const user = await ctx.model.User.findOne({
             where: {
@@ -15,7 +15,7 @@ class UserController extends Controller {
         if (user) {
             const passwordMatch = await ctx.compare(password, user.password);
             if (passwordMatch) {
-                const token = ctx.jwt.sign({ userId: user.user_id }, ctx.config.jwt.secret, { expiresIn: '30d' });
+                const token = app.jwt.sign({ user_id: user.user_id }, app.config.jwt.secret, { expiresIn: '30d' });
                 ctx.body = { success: true, message: '登录成功', token };
             } else {
                 ctx.body = { success: false, message: '账号或密码错误！' };
@@ -27,26 +27,36 @@ class UserController extends Controller {
             ctx.body = { message: '用户名或密码错误' };
         }
 
-        // if (user == null) return null
-        // return user.dataValues
-        // const { link_name, url, description = '' } = ctx.request.body;
-        // const link = await ctx.model.Link.create({ link_name, category_id, url, description });
-        // // 返回插入结果
-        // ctx.body = {
-        //     success: true,
-        //     data: link,
-        // };
+    }
+
+    async phoneLogin () {
+        const { ctx, app } = this;
+        const { account, password } = ctx.request.body;
+        const user = await ctx.model.User.findOne({
+            where: {
+                account,
+            },
+        });
+
+        if (user) {
+            const passwordMatch = await ctx.compare(password, user.password);
+            if (passwordMatch) {
+                const token = app.jwt.sign({ user_id: user.user_id }, app.config.jwt.secret, { expiresIn: '30d' });
+                ctx.body = { success: true, message: '登录成功', token };
+            } else {
+                ctx.body = { success: false, message: '账号或密码错误！' };
+            }
+        } else {
+            ctx.status = 401;
+            ctx.body = { message: '用户名或密码错误' };
+        }
     }
 
     async register () {
         const { ctx } = this;
-        console.log(ctx.request.body,123)
         // todo mysql 新增phone account字段
         const { account, password, phone, verification_code } = ctx.request.body;
         const user = await ctx.model.User.findByPk(account);
-        console.log(user)
-        console.log(ctx.bcrypt)
-        console.log(ctx.genHash)
         if (user) {
             ctx.status = 200;
             ctx.body = {
@@ -58,10 +68,7 @@ class UserController extends Controller {
         // 校验密码格式是否合法
         // 校验手机号和验证码是否匹配
         // 生成随机盐值
-        // const salt = ctx.bcrypt.genSaltSync(10);
-        // const salt = await ctx.genSalt(10);
         // 使用 bcrypt 加密密码
-        // const hashedPassword = ctx.bcrypt.hashSync(password, salt);
         const hashedPassword = await ctx.genHash(password);
         // 将用户名、加密后的密码和盐值保存到数据库
         const result = await ctx.model.User.create({ account,password: hashedPassword,phone});

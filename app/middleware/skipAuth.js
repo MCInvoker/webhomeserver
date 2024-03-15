@@ -1,20 +1,31 @@
-
-module.exports = (options, app) => {
-    return async function authMiddleware(ctx, next) {
-        const { headers } = ctx.request;
-      const {app} = ctx
-      const token = headers.authorization;
-  
-      if (!token) {
-        ctx.status = 401;
-        ctx.body = { success: false, message: 'Authorization token missing' };
+module.exports = () => {
+    return async function skipAuth(ctx, next) {
+      // 在这里添加需要跳过 JWT 校验的接口路径
+      const skipPaths = [
+        '/api/user/password/login',
+        '/api/user/phone/login',
+        '/api/user/register',
+        '/api/user/account/check',
+        '/api/user/phone/check',
+    ];
+      // 检查当前请求路径是否在跳过路径列表中
+      if (skipPaths.includes(ctx.path)) {
+        // 如果是跳过路径，则直接进入下一个中间件
+        await next();
         return;
       }
-
-  
-  
+      
+      // 对于其他请求路径，执行正常的 JWT 验证逻辑
+      const token = ctx.header.authorization;
+      if (!token) {
+        ctx.status = 401;
+        ctx.body = { message: 'Authorization token is missing' };
+        return;
+      }
+      
       try {
         // 验证 Token 的有效性
+        const {app} = ctx
         const decoded = app.jwt.verify(token.split(' ')[1], app.config.jwt.secret);
   
         // 将解析出的用户信息挂载到 ctx 中，以便后续中间件和控制器使用
@@ -35,7 +46,8 @@ module.exports = (options, app) => {
         await next();
       } catch (err) {
         ctx.status = 401;
-        ctx.body = { success: false, message: 'Invalid token' };
+        ctx.body = { message: 'Invalid authorization token' };
       }
     };
-};
+  };
+  

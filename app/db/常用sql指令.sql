@@ -13,7 +13,7 @@
 -- users表
 -- 创建表
 -- CREATE TABLE users (
---     id INT AUTO_INCREMENT PRIMARY KEY,
+--     user_id INT AUTO_INCREMENT PRIMARY KEY,
 --     username VARCHAR(255) NOT NULL,
 --     email VARCHAR(255) NOT NULL,
 --     password VARCHAR(255) NOT NULL,
@@ -62,3 +62,6 @@ ADD COLUMN is_deleted BOOLEAN DEFAULT 0;
 
 -- ALTER TABLE categories
 -- ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+-- 下面的指令可以查表结构，看信息
+SHOW CREATE TABLE users;
