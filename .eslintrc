@@ -7,11 +7,12 @@
     "rules": {
         "indent": [
             "error",
-            4
+            2
         ],
         "space-before-function-paren": [
             "error",
             "always"
-        ]
+        ],
+        "quotes": ["error", "double"]
     }
 }
