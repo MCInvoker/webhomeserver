@@ -38,6 +38,7 @@ module.exports = (options, app) => {
 
       await next();
     } catch (err) {
+      console.log(err);
       ctx.status = 401;
       ctx.body = { success: false, message: "Invalid token" };
     }
