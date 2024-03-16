@@ -65,3 +65,6 @@ ADD COLUMN is_deleted BOOLEAN DEFAULT 0;
 
 -- 下面的指令可以查表结构，看信息
 SHOW CREATE TABLE users;
+
+-- 数据库备份
+mysqldump -u root -p webhome > backup.sql

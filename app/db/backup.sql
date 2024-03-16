@@ -94,8 +94,8 @@ CREATE TABLE `pages` (
   `is_deleted` tinyint(1) DEFAULT '0',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`page_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  KEY `pages_ibfk_2` (`user_id`),
+  CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,6 +110,30 @@ INSERT INTO `pages` VALUES (1,1,'主页','这里是描述','2023-12-06 02:07:42'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `SequelizeMeta`
+--
+
+DROP TABLE IF EXISTS `SequelizeMeta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SequelizeMeta` (
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`name`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SequelizeMeta`
+--
+
+LOCK TABLES `SequelizeMeta` WRITE;
+/*!40000 ALTER TABLE `SequelizeMeta` DISABLE KEYS */;
+INSERT INTO `SequelizeMeta` VALUES ('20240313141951-create-test-0313.js');
+/*!40000 ALTER TABLE `SequelizeMeta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -117,15 +141,17 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `user_id` int NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `account` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +160,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'invoker','759302142@qq.com','qj759302142','2023-12-06 01:30:40',0,'2023-12-07 00:40:09');
+INSERT INTO `users` VALUES (1,'invoker','759302142@qq.com','$2a$10$nvuj1wtYCtzoegA3r/ODUech.JG0QdDR56AVbk2b5m2qcgj1rTk6q','2023-12-06 01:30:40',0,'2024-03-16 12:58:29','invoker','18146686507'),(2,NULL,NULL,'$2a$10$CxQs8wV2l/GNc3voBYCeAeRhzGizcW5lbvhVxVzvvCG7eEOYNky2y','2024-03-14 16:48:34',0,'2024-03-14 16:48:34','test','1234513463');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -147,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-28 20:02:48
+-- Dump completed on 2024-03-16 22:48:40
