@@ -68,3 +68,9 @@ SHOW CREATE TABLE users;
 
 -- 数据库备份
 mysqldump -u root -p webhome > backup.sql
+
+
+-- 将pages表中user_id字段名改成created_by
+
+ALTER TABLE pages
+CHANGE COLUMN user_id created_by INT(11) NOT NULL;

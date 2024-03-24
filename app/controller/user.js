@@ -1,5 +1,5 @@
 "use strict";
-
+import { TOKEN_VALIDITY_PERIOD } from "../utils/const";
 const { Controller } = require("egg");
 
 class UserController extends Controller {
@@ -18,8 +18,11 @@ class UserController extends Controller {
         const token = app.jwt.sign(
           { user_id: user.user_id },
           app.config.jwt.secret,
-          { expiresIn: "30d" }
+          {
+            expiresIn: TOKEN_VALIDITY_PERIOD,
+          }
         );
+
         ctx.body = { success: true, message: "登录成功", token };
       } else {
         ctx.body = { success: false, message: "账号或密码错误！" };
@@ -34,34 +37,39 @@ class UserController extends Controller {
 
   async phoneLogin() {
     const { ctx, app } = this;
-    const { account, password } = ctx.request.body;
+    const { phone, verification_code } = ctx.request.body;
+    const redisCode = await app.redis.get("SMS_465412747" + phone);
+    if (verification_code !== redisCode) {
+      ctx.body = {
+        success: false,
+        message: "手机号和验证码不匹配！",
+      };
+      return;
+    }
     const user = await ctx.model.User.findOne({
       where: {
-        account,
+        verification_code,
       },
     });
 
     if (user) {
-      const passwordMatch = await ctx.compare(password, user.password);
-      if (passwordMatch) {
-        const token = app.jwt.sign(
-          { user_id: user.user_id },
-          app.config.jwt.secret,
-          { expiresIn: "30d" }
-        );
-        ctx.body = { success: true, message: "登录成功", token };
-      } else {
-        ctx.body = { success: false, message: "账号或密码错误！" };
-      }
+      const token = app.jwt.sign(
+        { user_id: user.user_id },
+        app.config.jwt.secret,
+        { expiresIn: TOKEN_VALIDITY_PERIOD }
+      );
+      ctx.body = { success: true, message: "登录成功", token };
     } else {
-      ctx.status = 401;
-      ctx.body = { message: "用户名或密码错误" };
+      ctx.body = {
+        success: false,
+        message: "该手机号暂未绑定账户！",
+      };
+      return;
     }
   }
 
   async register() {
-    const { ctx } = this;
-    // todo mysql 新增phone account字段
+    const { ctx, app } = this;
     const { account, password, phone, verification_code } = ctx.request.body;
     const user = await ctx.model.User.findByPk(account);
     if (user) {
@@ -74,10 +82,16 @@ class UserController extends Controller {
     }
     // 校验密码格式是否合法
     // 校验手机号和验证码是否匹配
-    // 生成随机盐值
+    const redisCode = await app.redis.get("SMS_465431543" + phone);
+    if (verification_code !== redisCode) {
+      ctx.body = {
+        success: false,
+        message: "手机号和验证码不匹配！",
+      };
+      return;
+    }
     // 使用 bcrypt 加密密码
     const hashedPassword = await ctx.genHash(password);
-    // 将用户名、加密后的密码和盐值保存到数据库
     const result = await ctx.model.User.create({
       account,
       password: hashedPassword,

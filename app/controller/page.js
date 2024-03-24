@@ -24,7 +24,7 @@ class PageController extends Controller {
         },
       ],
     });
-    check403(ctx, page.user_id);
+    check403(ctx, page.created_by);
     ctx.body = {
       success: true,
       data: page,
@@ -35,7 +35,7 @@ class PageController extends Controller {
     const { ctx } = this;
     const pages = await this.ctx.model.Page.findAll({
       where: {
-        user_id: "1",
+        created_by: ctx.user.user_id,
         is_deleted: 0,
       },
     });
@@ -50,7 +50,7 @@ class PageController extends Controller {
     const { page_name, description = "" } = ctx.request.body;
     const user_id = ctx.user.user_id;
     const page = await ctx.model.Page.create({
-      user_id,
+      created_by: user_id,
       page_name,
       description,
     });
@@ -70,6 +70,7 @@ class PageController extends Controller {
       ctx.body = { error: "page not found" };
       return;
     }
+    check403(ctx, page.created_by);
     await page.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -87,6 +88,7 @@ class PageController extends Controller {
       ctx.body = { error: "page not found" };
       return;
     }
+    check403(ctx, page.created_by);
     await page.update({ page_name, description });
     ctx.body = {
       success: true,

@@ -1,6 +1,7 @@
 "use strict";
 
 const { Controller } = require("egg");
+import { check403 } from "../utils/errorMessage";
 
 class CategoryController extends Controller {
   // 创建分类
@@ -9,6 +10,7 @@ class CategoryController extends Controller {
     const { page_id } = ctx.params;
     const { category_name, description = "" } = ctx.request.body;
     const category = await ctx.model.Category.create({
+      created_by: ctx.user.user_id,
       category_name,
       description,
       page_id,
@@ -29,6 +31,7 @@ class CategoryController extends Controller {
       ctx.body = { error: "category not found" };
       return;
     }
+    check403(ctx, category.created_by);
     await category.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -46,6 +49,7 @@ class CategoryController extends Controller {
       ctx.body = { error: "category not found" };
       return;
     }
+    check403(ctx, category.created_by);
     await category.update({ category_name, description });
     ctx.body = {
       success: true,

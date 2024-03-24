@@ -22,6 +22,11 @@ module.exports = (app) => {
   // 校验手机号是否重复
   router.post("/api/user/phone/check/:phone", controller.user.phoneCheck);
 
+  // 用户注册时获取手机验证码
+  router.post("/api/sms/register", controller.sms.sendRegisterVerificationCode);
+  // 用户登录时获取手机验证码
+  router.post("/api/sms/login", controller.sms.sendLoginVerificationCode);
+
   // 获取某个页面下的所有链接，多层级结构
   router.get("/api/page/:page_id", authMiddleware, controller.page.getPage);
   // router.get('/api/page/:page_id', controller.page.getPage);

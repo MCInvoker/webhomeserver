@@ -1,4 +1,5 @@
 "use strict";
+import { check403 } from "../utils/errorMessage";
 
 const { Controller } = require("egg");
 
@@ -16,6 +17,7 @@ class LinkController extends Controller {
     // ctx.validate(rule, ctx.request.body);
     const { link_name, url, description = "" } = ctx.request.body;
     const link = await ctx.model.Link.create({
+      created_by: ctx.user.user_id,
       link_name,
       category_id,
       url,
@@ -36,6 +38,7 @@ class LinkController extends Controller {
       ctx.body = { error: "link not found" };
       return;
     }
+    check403(ctx, link.created_by);
     await link.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -52,6 +55,7 @@ class LinkController extends Controller {
       ctx.body = { error: "link not found" };
       return;
     }
+    check403(ctx, link.created_by);
     await link.update({ link_name, category_id, url, description });
     ctx.body = {
       success: true,

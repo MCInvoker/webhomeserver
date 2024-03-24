@@ -38,7 +38,10 @@ module.exports = (options, app) => {
 
       await next();
     } catch (err) {
-      console.log(err);
+      // 接住check403抛出的错误
+      if (ctx.status === 403) {
+        return;
+      }
       ctx.status = 401;
       ctx.body = { success: false, message: "Invalid token" };
     }
