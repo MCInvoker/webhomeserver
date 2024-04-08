@@ -31,7 +31,9 @@ class CategoryController extends Controller {
       ctx.body = { error: "category not found" };
       return;
     }
-    check403(ctx, category.created_by);
+    if (!check403(ctx, category.created_by)) {
+        return
+    }
     await category.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -49,7 +51,9 @@ class CategoryController extends Controller {
       ctx.body = { error: "category not found" };
       return;
     }
-    check403(ctx, category.created_by);
+    if (!check403(ctx, category.created_by)) {
+        return
+    }
     await category.update({ category_name, description });
     ctx.body = {
       success: true,

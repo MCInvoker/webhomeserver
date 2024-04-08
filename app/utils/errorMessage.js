@@ -8,6 +8,7 @@ export const check403 = (ctx, user_id, message) => {
     ctx.body = {
       message: message || "权限不足",
     };
-    ctx.throw();
+    return false
   }
+  return true
 };

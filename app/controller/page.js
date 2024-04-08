@@ -24,7 +24,9 @@ class PageController extends Controller {
         },
       ],
     });
-    check403(ctx, page.created_by);
+    if (!check403(ctx, page.created_by)) {
+        return
+    }
     ctx.body = {
       success: true,
       data: page,
@@ -70,7 +72,9 @@ class PageController extends Controller {
       ctx.body = { error: "page not found" };
       return;
     }
-    check403(ctx, page.created_by);
+    if (!check403(ctx, page.created_by)) {
+        return
+    }
     await page.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -88,7 +92,9 @@ class PageController extends Controller {
       ctx.body = { error: "page not found" };
       return;
     }
-    check403(ctx, page.created_by);
+    if (!check403(ctx, page.created_by)) {
+        return
+    }
     await page.update({ page_name, description });
     ctx.body = {
       success: true,

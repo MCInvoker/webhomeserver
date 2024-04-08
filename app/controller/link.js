@@ -38,7 +38,9 @@ class LinkController extends Controller {
       ctx.body = { error: "link not found" };
       return;
     }
-    check403(ctx, link.created_by);
+    if (!check403(ctx, link.created_by)) {
+        return
+    }
     await link.update({ is_deleted: 1 });
     ctx.body = {
       success: true,
@@ -55,7 +57,9 @@ class LinkController extends Controller {
       ctx.body = { error: "link not found" };
       return;
     }
-    check403(ctx, link.created_by);
+    if (!check403(ctx, link.created_by)) {
+        return
+    }
     await link.update({ link_name, category_id, url, description });
     ctx.body = {
       success: true,
