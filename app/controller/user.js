@@ -97,10 +97,15 @@ class UserController extends Controller {
       password: hashedPassword,
       phone,
     });
+    const page = await ctx.model.Page.create({
+        created_by: result.user_id,
+        page_name: '默认页面',
+        description: '创建账号时默认创建的页面',
+    });
     // 返回插入结果
     ctx.body = {
       success: true,
-      data: result,
+      data: {user_id: result.user_id, page_id: page.page_id},
     };
   }
 
