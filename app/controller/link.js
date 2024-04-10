@@ -4,6 +4,7 @@ import { check403 } from "../utils/errorMessage";
 const { Controller } = require("egg");
 
 class LinkController extends Controller {
+    // 如果新增链接时没有分类，那么category_id传'0'
   async createLink() {
     const { ctx } = this;
     const { category_id } = ctx.params;
@@ -17,16 +18,16 @@ class LinkController extends Controller {
     // ctx.validate(rule, ctx.request.body);
     const { link_name, url, description = "" } = ctx.request.body;
     const link = await ctx.model.Link.create({
-      created_by: ctx.user.user_id,
-      link_name,
-      category_id,
-      url,
-      description,
+        created_by: ctx.user.user_id,
+        link_name,
+        category_id: category_id === '0' ? null : category_id,
+        url,
+        description,
     });
-    // 返回插入结果
+      // 返回插入结果
     ctx.body = {
-      success: true,
-      data: link,
+        success: true,
+        data: link,
     };
   }
   async deleteLink() {
