@@ -6,6 +6,7 @@
 module.exports = (app) => {
   const { router, controller, middleware } = app;
   const authMiddleware = middleware.auth(app);
+  const ipRateLimitMiddleware = middleware.ipRateLimit(app);
   // egg init就有的 留着玩
   router.get("/", app.jwt, controller.home.index);
   // 测试用，调试用
@@ -23,9 +24,9 @@ module.exports = (app) => {
   router.post("/api/user/phone/check/:phone", controller.user.phoneCheck);
 
   // 用户注册时获取手机验证码
-  router.post("/api/sms/register", controller.sms.sendRegisterVerificationCode);
+  router.post("/api/sms/register",ipRateLimitMiddleware, controller.sms.sendRegisterVerificationCode);
   // 用户登录时获取手机验证码
-  router.post("/api/sms/login", controller.sms.sendLoginVerificationCode);
+  router.post("/api/sms/login", ipRateLimitMiddleware, controller.sms.sendLoginVerificationCode);
 
   // 获取某个页面下的所有链接，多层级结构
   router.get("/api/page/:page_id", authMiddleware, controller.page.getPage);
