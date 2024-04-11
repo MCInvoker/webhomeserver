@@ -4,7 +4,6 @@ import { check403 } from "../utils/errorMessage";
 const { Controller } = require("egg");
 
 class LinkController extends Controller {
-    // 如果新增链接时没有分类，那么category_id传'0'
   async createLink() {
     const { ctx } = this;
     const { category_id } = ctx.params;
@@ -20,7 +19,7 @@ class LinkController extends Controller {
     const link = await ctx.model.Link.create({
         created_by: ctx.user.user_id,
         link_name,
-        category_id: category_id === '0' ? null : category_id,
+        category_id,
         url,
         description,
     });
@@ -67,6 +66,24 @@ class LinkController extends Controller {
       data: link,
     };
   }
+  // 获取指定page_id下没有分类的链接
+  // async getNullCategoryLinks() {
+  //   const { ctx } = this;
+  //   const { page_id } = ctx.params;
+  //   const links = await ctx.model.Link.findAll({
+  //     where: {
+  //         is_deleted: 0,
+  //         created_by: ctx.user.user_id, // 将指定的用户ID替换成实际的用户ID
+  //         page_id: page_id,
+  //         // category_id: null // category_id 为 null
+  //     },
+  //     raw: true
+  //   });
+  //   ctx.body = {
+  //     success: true,
+  //     data: links,
+  //   };
+  // }
 }
 
 module.exports = LinkController;

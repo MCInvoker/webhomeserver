@@ -13,6 +13,8 @@ class PageController extends Controller {
         {
           model: ctx.model.Category,
           where: { is_deleted: 0 },
+          separate: true,
+          order: [["is_default", "DESC"]], // DESC  ASC  用DESC的话默认分类为1排在前面
           include: [
             {
               model: ctx.model.Link,

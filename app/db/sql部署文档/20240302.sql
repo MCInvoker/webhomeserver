@@ -20,7 +20,20 @@ INNER JOIN categories p ON c.category_id = p.category_id
 SET c.created_by = p.created_by;
 
 
+-- categories表新增page_id字段
+ALTER TABLE links
+ADD COLUMN page_id INT(11) NOT NULL;
 
+UPDATE links AS l
+JOIN categories AS c ON l.category_id = c.category_id
+SET l.page_id = c.page_id;
+
+
+ALTER TABLE pages
+ADD COLUMN is_default INT(1) DEFAULT 0;
+
+ALTER TABLE categories
+ADD COLUMN is_default INT(1) DEFAULT 0;
 
 
 
@@ -35,4 +48,13 @@ DROP COLUMN created_by;
 
 ALTER TABLE links
 DROP COLUMN created_by;
+
+ALTER TABLE links
+DROP COLUMN page_id;
+
+ALTER TABLE pages
+DROP COLUMN is_default;
+
+ALTER TABLE categories
+DROP COLUMN is_default;
 

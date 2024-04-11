@@ -97,10 +97,19 @@ class UserController extends Controller {
       password: hashedPassword,
       phone,
     });
+    // 注册时创建默认页面和默认分类
     const page = await ctx.model.Page.create({
         created_by: result.user_id,
         page_name: '默认页面',
         description: '创建账号时默认创建的页面',
+        is_default: 1
+    });
+    await ctx.model.Category.create({
+        created_by: result.user_id,
+        page_name: '默认分类',
+        description: '创建账号时默认创建的分类',
+        page_id: page.page_id,
+        is_default: 1
     });
     // 返回插入结果
     ctx.body = {

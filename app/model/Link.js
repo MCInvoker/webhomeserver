@@ -5,6 +5,7 @@ module.exports = (app) => {
 
   const Link = app.model.define("links", {
     link_id: { type: INTEGER, primaryKey: true, autoIncrement: true },
+    page_id: INTEGER,
     category_id: INTEGER,
     created_by: INTEGER,
     link_name: STRING(255),
@@ -16,6 +17,7 @@ module.exports = (app) => {
   });
 
   Link.associate = function () {
+    app.model.Link.belongsTo(app.model.Page, { foreignKey: "page_id" });
     app.model.Link.belongsTo(app.model.Category, { foreignKey: "category_id" });
   };
 

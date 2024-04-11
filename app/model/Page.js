@@ -9,10 +9,12 @@ module.exports = (app) => {
     page_name: STRING(255),
     description: STRING(255),
     is_deleted: { type: INTEGER, defaultValue: 0 },
+    is_default: { type: INTEGER, defaultValue: 0 },
   });
 
   Page.associate = function () {
     app.model.Page.belongsTo(app.model.User, { foreignKey: "created_by" });
+    app.model.Page.hasMany(app.model.Link, { foreignKey: "page_id" });
     app.model.Page.hasMany(app.model.Category, { foreignKey: "page_id" });
   };
 

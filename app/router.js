@@ -57,6 +57,7 @@ module.exports = (app) => {
     controller.category.updateCategory
   );
 
+//   router.get("/api/link/:page_id", authMiddleware, controller.link.getNullCategoryLinks)
   router.post(
     "/api/link/:category_id",
     authMiddleware,

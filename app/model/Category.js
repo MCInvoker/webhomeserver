@@ -12,6 +12,7 @@ module.exports = (app) => {
     // created_at: DATE,
     // updated_at: DATE,
     is_deleted: { type: INTEGER, defaultValue: 0 },
+    is_default: { type: INTEGER, defaultValue: 0 },
   });
 
   Category.associate = function () {
