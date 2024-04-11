@@ -31,7 +31,8 @@
 
 
 17.404 Not Found: 资源未找到
-18.400 Bad Request: 请求无效
+18.400 Bad Request: 请求无效 这个状态码表示服务器无法理解请求，因为客户端发送的请求可能存在错误的参数格式或缺失必要的参数。
+   422 Unprocessable Entity: 该状态码表示服务器理解请求，但无法处理其中包含的参数。这通常用于指示参数验证失败。
 19.401 Unauthorized: 未授权
 20.403 Forbidden: 禁止访问
 21.500 Internal Server Error: 服务器内部错误
