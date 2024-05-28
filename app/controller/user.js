@@ -3,7 +3,7 @@ import { TOKEN_VALIDITY_PERIOD } from "../utils/const";
 const { Controller } = require("egg");
 
 class UserController extends Controller {
-  async passwordLogin() {
+  async passwordLogin () {
     const { ctx, app } = this;
     const { account, password } = ctx.request.body;
     const user = await ctx.model.User.findOne({
@@ -27,28 +27,26 @@ class UserController extends Controller {
       } else {
         ctx.body = { success: false, message: "账号或密码错误！" };
       }
-      // // 将 Token 存储到 Redis，并设置过期时间
-      // await ctx.redis.set(`token:${account}`, token, 'EX', 60 * 60 * 24 * 365); // 例如，设置 24 小时过期
     } else {
       ctx.status = 401;
       ctx.body = { message: "用户名或密码错误" };
     }
   }
 
-  async phoneLogin() {
+  async phoneLogin () {
     const { ctx, app } = this;
     const { phone, verification_code } = ctx.request.body;
     const redisCode = await app.redis.get("SMS_465412747" + phone);
     if (verification_code !== redisCode) {
       ctx.body = {
         success: false,
-        message: "手机号和验证码不匹配！",
+        message: "验证码错误！",
       };
       return;
     }
     const user = await ctx.model.User.findOne({
       where: {
-        verification_code,
+        phone,
       },
     });
 
@@ -62,21 +60,30 @@ class UserController extends Controller {
     } else {
       ctx.body = {
         success: false,
-        message: "该手机号暂未绑定账户！",
+        message: "该手机号暂未注册！",
       };
       return;
     }
   }
 
-  async register() {
+  async register () {
     const { ctx, app } = this;
     const { account, password, phone, verification_code } = ctx.request.body;
-    const user = await ctx.model.User.findByPk(account);
-    if (user) {
+    const userAccountCheck = await ctx.model.User.findOne({ where: { account } });
+    if (userAccountCheck) {
       ctx.status = 200;
       ctx.body = {
         success: false,
         message: "账号不能重复",
+      };
+      return;
+    }
+    const userPhoneCheck = await ctx.model.User.findOne({ where: { phone } });
+    if (userPhoneCheck) {
+      ctx.status = 200;
+      ctx.body = {
+        success: false,
+        message: "手机号已经被注册",
       };
       return;
     }
@@ -86,7 +93,7 @@ class UserController extends Controller {
     if (verification_code !== redisCode) {
       ctx.body = {
         success: false,
-        message: "手机号和验证码不匹配！",
+        message: "验证码错误！",
       };
       return;
     }
@@ -99,30 +106,30 @@ class UserController extends Controller {
     });
     // 注册时创建默认页面和默认分类
     const page = await ctx.model.Page.create({
-        created_by: result.user_id,
-        page_name: '默认页面',
-        description: '创建账号时默认创建的页面',
-        is_default: 1
+      created_by: result.user_id,
+      page_name: "默认页面",
+      description: "创建账号时默认创建的页面",
+      is_default: 1,
     });
     await ctx.model.Category.create({
-        created_by: result.user_id,
-        page_name: '默认分类',
-        description: '创建账号时默认创建的分类',
-        page_id: page.page_id,
-        is_default: 1
+      created_by: result.user_id,
+      category_name: "默认分类",
+      description: "创建账号时默认创建的分类",
+      page_id: page.page_id,
+      is_default: 1,
     });
     // 返回插入结果
     ctx.body = {
       success: true,
-      data: {user_id: result.user_id, page_id: page.page_id},
+      data: { user_id: result.user_id, page_id: page.page_id },
     };
   }
 
   // 查询账号是否重复
-  async accountCheck() {
+  async accountCheck () {
     const { ctx } = this;
     const { account } = ctx.params;
-    const user = await ctx.model.User.findByPk(account);
+    const user = await ctx.model.User.findOne({ where: { account } });
     if (!user) {
       ctx.body = {
         success: true,
@@ -138,10 +145,10 @@ class UserController extends Controller {
   }
 
   // 查询手机号是否重复
-  async phoneCheck() {
+  async phoneCheck () {
     const { ctx } = this;
     const { phone } = ctx.params;
-    const user = await ctx.model.User.findByPk(phone);
+    const user = await ctx.model.User.findOne({ where: { phone } });
     if (!user) {
       ctx.body = {
         success: true,

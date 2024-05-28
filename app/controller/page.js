@@ -5,7 +5,7 @@ import { check403 } from "../utils/errorMessage";
 
 class PageController extends Controller {
   // 获取某个页面下的所有链接
-  async getPage() {
+  async getPage () {
     const { ctx } = this;
     const { page_id } = ctx.params;
     const page = await ctx.model.Page.findByPk(page_id, {
@@ -14,20 +14,20 @@ class PageController extends Controller {
           model: ctx.model.Category,
           where: { is_deleted: 0 },
           separate: true,
-          order: [["is_default", "DESC"]], // DESC  ASC  用DESC的话默认分类为1排在前面
+          order: [[ "is_default", "DESC" ]], // DESC  ASC  用DESC的话默认分类为1排在前面
           include: [
             {
               model: ctx.model.Link,
               where: { is_deleted: 0 },
               separate: true, // separate单独对links独立查询,可能会存在性能问题,如果后期有性能问题可以在其他地方排序
-              order: [["link_id", "ASC"]], // DESC  ASC
+              order: [[ "link_id", "ASC" ]], // DESC  ASC
             },
           ],
         },
       ],
     });
     if (!check403(ctx, page.created_by)) {
-        return
+      return;
     }
     ctx.body = {
       success: true,
@@ -35,7 +35,7 @@ class PageController extends Controller {
     };
   }
   // 获取当前用户下所有页面
-  async getPages() {
+  async getPages () {
     const { ctx } = this;
     const pages = await this.ctx.model.Page.findAll({
       where: {
@@ -49,7 +49,7 @@ class PageController extends Controller {
     };
   }
   // 创建页面
-  async createPage() {
+  async createPage () {
     const { ctx } = this;
     const { page_name, description = "" } = ctx.request.body;
     const user_id = ctx.user.user_id;
@@ -65,7 +65,7 @@ class PageController extends Controller {
     };
   }
   //
-  async deletePage() {
+  async deletePage () {
     const { ctx } = this;
     const { page_id } = ctx.params;
     const page = await ctx.model.Page.findByPk(page_id);
@@ -75,7 +75,7 @@ class PageController extends Controller {
       return;
     }
     if (!check403(ctx, page.created_by)) {
-        return
+      return;
     }
     await page.update({ is_deleted: 1 });
     ctx.body = {
@@ -84,7 +84,7 @@ class PageController extends Controller {
     };
   }
 
-  async updatePage() {
+  async updatePage () {
     const { ctx } = this;
     const { page_id } = ctx.params;
     const { page_name, description = "" } = ctx.request.body;
@@ -95,7 +95,7 @@ class PageController extends Controller {
       return;
     }
     if (!check403(ctx, page.created_by)) {
-        return
+      return;
     }
     await page.update({ page_name, description });
     ctx.body = {
