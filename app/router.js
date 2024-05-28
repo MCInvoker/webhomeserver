@@ -3,7 +3,7 @@
 /**
  * @param {Egg.Application} app - egg application
  */
-module.exports = (app) => {
+module.exports = app => {
   const { router, controller, middleware } = app;
   const authMiddleware = middleware.auth(app);
   const ipRateLimitMiddleware = middleware.ipRateLimit(app);
@@ -24,7 +24,7 @@ module.exports = (app) => {
   router.post("/api/user/phone/check/:phone", controller.user.phoneCheck);
 
   // 用户注册时获取手机验证码
-  router.post("/api/sms/register",ipRateLimitMiddleware, controller.sms.sendRegisterVerificationCode);
+  router.post("/api/sms/register", ipRateLimitMiddleware, controller.sms.sendRegisterVerificationCode);
   // 用户登录时获取手机验证码
   router.post("/api/sms/login", ipRateLimitMiddleware, controller.sms.sendLoginVerificationCode);
 
@@ -57,7 +57,7 @@ module.exports = (app) => {
     controller.category.updateCategory
   );
 
-//   router.get("/api/link/:page_id", authMiddleware, controller.link.getNullCategoryLinks)
+  //   router.get("/api/link/:page_id", authMiddleware, controller.link.getNullCategoryLinks)
   router.post(
     "/api/link/:category_id",
     authMiddleware,
