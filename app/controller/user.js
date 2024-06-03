@@ -157,7 +157,7 @@ class UserController extends Controller {
       ctx.status = 200;
       ctx.body = {
         success: false,
-        message: "手机号码重复!",
+        hideMessage: "手机号码重复!", // 前端不希望自动弹出message信息
       };
       return;
     }
