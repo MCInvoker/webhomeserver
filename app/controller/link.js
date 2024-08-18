@@ -15,13 +15,14 @@ class LinkController extends Controller {
     // };
     // // 进行参数校验
     // ctx.validate(rule, ctx.request.body);
-    const { link_name, url, description = "", page_id } = ctx.request.body;
+    const { link_name, url, description = "", page_id, icon = "" } = ctx.request.body;
     const link = await ctx.model.Link.create({
       created_by: ctx.user.user_id,
       link_name,
       category_id,
       page_id,
       url,
+      icon,
       description,
     });
       // 返回插入结果
@@ -51,7 +52,7 @@ class LinkController extends Controller {
   async updateLink () {
     const { ctx } = this;
     const { link_id } = ctx.params;
-    const { link_name, category_id, url, description = "" } = ctx.request.body;
+    const { link_name, category_id, url, description = "", icon = "" } = ctx.request.body;
     const link = await ctx.model.Link.findByPk(link_id);
     if (!link) {
       ctx.status = 404;
@@ -61,7 +62,7 @@ class LinkController extends Controller {
     if (!check403(ctx, link.created_by)) {
       return;
     }
-    await link.update({ link_name, category_id, url, description });
+    await link.update({ link_name, category_id, url, description, icon });
     ctx.body = {
       success: true,
       data: link,
