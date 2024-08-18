@@ -45,8 +45,8 @@ class StsController extends Controller {
       const sessionName = `session_${Date.now()}`;
       const sts = new STS({
         // 填写步骤1创建的RAM用户AccessKey。
-        accessKeyId: "sts_accessKeyId",
-        accessKeySecret: "sts_accessKeySecret",
+        accessKeyId: sts_accessKeyId,
+        accessKeySecret: sts_accessKeySecret,
       });
       const result = await sts.assumeRole(roleArn, policy, expire, sessionName);
       await app.redis.set("stsInfoLinkIcon", JSON.stringify({
