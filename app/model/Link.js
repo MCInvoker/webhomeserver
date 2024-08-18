@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = (app) => {
+module.exports = app => {
   const { STRING, INTEGER, DATE } = app.Sequelize;
 
   const Link = app.model.define("links", {
@@ -11,6 +11,7 @@ module.exports = (app) => {
     link_name: STRING(255),
     url: STRING(255),
     description: STRING(255),
+    icon: STRING(255),
     // created_at: DATE,
     // updated_at: DATE,
     is_deleted: { type: INTEGER, defaultValue: 0 },

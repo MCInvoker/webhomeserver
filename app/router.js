@@ -69,4 +69,6 @@ module.exports = app => {
     controller.link.deleteLink
   );
   router.put("/api/link/:link_id", authMiddleware, controller.link.updateLink);
+
+  router.get("/api/sts", authMiddleware, controller.sts.getSts);
 };
